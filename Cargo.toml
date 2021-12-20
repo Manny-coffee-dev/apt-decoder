@@ -1,8 +1,8 @@
 [package]
 name = "apt-decoder"
 version = "0.1.0"
-authors = ["Sebastian <sebastian@sebastians-site.de>"]
+authors = ["Sebastian <sebastian@sebastians-site.de>", "Tom Mann <tom.mann@coffeebreakdevs.co.uk"]
 
 [dependencies]
-hound = "*"
-image = "*"
+hound = "3.4.0"
+image = "0.23.14"

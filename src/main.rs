@@ -55,14 +55,8 @@ fn main() {
         panic!("Expected a mono file");
     }
 
-    let sample_rate = reader.spec().sample_rate;
-    println!("Samplerate: {}", sample_rate);
-    if sample_rate != 48000 {
-        panic!("Expected a 48kHz sample rate");
-    }
-
     let sample_count = reader.len();
-    let seconds = (sample_count as f32) / (sample_rate as f32);
+    let seconds = (reader.duration() / &reader.spec().sample_rate) as f32;
     let lines = (seconds.ceil() as u32) * LINES_PER_SECOND;
     println!("File contains {} seconds or {} lines", seconds, lines);
 
@@ -142,12 +136,13 @@ fn main() {
     }
     println!("");
 
-    let ref mut fout = match File::create(&Path::new(&args[2])) {
+    let path = Path::new(&args[2]);
+    let mut _fout = match File::create(path) {
         Err(e) => panic!("Could not open outputfile: {}", e),
         Ok(f) => f
     };
 
-    image::ImageLuma8(img).save(fout, image::PNG).unwrap();
+    image::DynamicImage::ImageLuma8(img).save(path).unwrap();
 
     println!("Done !");
 }
